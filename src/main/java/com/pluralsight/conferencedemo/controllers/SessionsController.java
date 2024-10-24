@@ -2,7 +2,9 @@ package com.pluralsight.conferencedemo.controllers;
 
 import com.pluralsight.conferencedemo.models.Session;
 import com.pluralsight.conferencedemo.models.Speaker;
+import com.pluralsight.conferencedemo.models.TicketType;
 import com.pluralsight.conferencedemo.repositories.SessionRepository;
+import com.pluralsight.conferencedemo.repositories.TicketTypeJpaRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,17 +34,27 @@ public class SessionsController {
         return repository.find(id);
     }
 
+    @GetMapping
+    @RequestMapping("/count")
+    public Long count() {
+        return repository.countSessions("Java");
+    }
+
+    @GetMapping
+    @RequestMapping("/length")
+    public List<Session> length() {
+        return repository.countSessionsLength(30);
+    }
+
     @PostMapping
     public Session create(@RequestBody final Session session){
         return repository.create(session);
     }
 
-    @DeleteMapping
-    public void delete(@PathVariable Long id) {
-        repository.delete(id);
-    }
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable Long id) {repository.delete(id);}
 
-    @PutMapping
+    @PutMapping("{id}")
     public Session update(@PathVariable Long id, @RequestBody Session session) {
         //because this is a PUT, we expect all attributes to be passed in. A PATCH would only need what has changed.
         //TODO: Add validation that all attributes are passed in, otherwise return a 400 bad payload

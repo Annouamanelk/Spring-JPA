@@ -40,4 +40,14 @@ public class SessionRepository {
     public List<Session> getSessionsThatHaveName(String name) {
         return sessionJpaRepository.findBySessionNameContains(name);
     }
+
+    public Long countSessions(String name) {
+        return sessionJpaRepository.countBySessionNameContains(name);
+    }
+
+    public List<Session> countSessionsLength(int length) {
+        return sessionJpaRepository.findBySessionLengthGreaterThan(length);
+    }
+
+
 }
