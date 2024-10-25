@@ -2,6 +2,8 @@ package com.pluralsight.conferencedemo.repositories;
 
 import com.pluralsight.conferencedemo.models.Session;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -47,6 +49,14 @@ public class SessionRepository {
 
     public List<Session> countSessionsLength(int length) {
         return sessionJpaRepository.findBySessionLengthGreaterThan(length);
+    }
+
+    public Page<Session> getSessionsWithName(String name, Pageable pageable) {
+        return sessionJpaRepository.getSessionsWithName(name, pageable);
+    }
+
+    public List<Session> selectSessions() {
+        return sessionJpaRepository.customGetSessions();
     }
 
 

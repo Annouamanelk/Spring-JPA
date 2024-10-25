@@ -7,6 +7,9 @@ import com.pluralsight.conferencedemo.repositories.SessionRepository;
 import com.pluralsight.conferencedemo.repositories.TicketTypeJpaRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityManager;
@@ -44,6 +47,18 @@ public class SessionsController {
     @RequestMapping("/length")
     public List<Session> length() {
         return repository.countSessionsLength(30);
+    }
+
+    @GetMapping
+    @RequestMapping("/page")
+    public Page<Session> sessionsWithName() {
+        return repository.getSessionsWithName("S", PageRequest.of(1,5, Sort.by(Sort.Direction.DESC, "sessionLength")));
+    }
+
+    @GetMapping
+    @RequestMapping("/custom")
+    public List<Session> customGetSessions() {
+        return repository.selectSessions();
     }
 
     @PostMapping
